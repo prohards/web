@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CassianCode | Webdesign & Desenvolvimento Digital Premium</title>
+    
+    <link rel="icon" type="image/png" href="assets/favicon_cassiancode.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800;900&display=swap');
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; scroll-behavior: smooth; }
+        body { background-color: #0c0d0f; color: #fff; overflow: hidden; }
+
+        :root { --cc-primary: #a6ff0c; } /* Verde da CassianCode */
+
+        /* ============================================================
+           1. TELA DE CARREGAMENTO (LOADING SCREEN)
+           ============================================================ */
+        #loading-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: #0c0d0f;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-logo-img {
+            height: 70px; 
+            margin-bottom: 25px;
+            animation: pulse-logo 1.5s infinite ease-in-out;
+        }
+
+        .loading-bar-container { width: 250px; position: relative; }
+        .loading-bar { width: 100%; height: 3px; background-color: #1a1c21; border-radius: 50px; overflow: hidden; }
+        .loading-fill { height: 100%; width: 0%; background-color: var(--cc-primary); border-radius: 50px; transition: width 0.1s linear; }
+        .loading-percentage { margin-top: 15px; font-size: 1rem; font-weight: 600; color: #888; letter-spacing: 2px; display: flex; justify-content: space-between; }
+        .loading-screen-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        @keyframes pulse-logo {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* ============================================================
+           2. CABEÇALHO, LOGO E MENU
+           ============================================================ */
+        header { 
+            padding: 25px 50px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: absolute; 
+            width: 100%; 
+            z-index: 100; 
+        }
+
+        /* Tamanho ideal da Logo no Menu */
+        .logo-img {
+            height: 225px; 
+            width: auto;
+            max-width: 450px;
+        }
+
+        /* Forçando o Menu a ficar Horizontal e sem estilo de lista */
+        .nav-menu ul { 
+            list-style-type: none !important; 
+            display: flex !important; 
+            flex-direction: row !important;
+            gap: 40px !important; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        .nav-menu a { 
+            text-decoration: none !important; 
+            color: #aaa !important; 
+            font-size: 0.9rem; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            letter-spacing: 1px; 
+            transition: color 0.3s; 
+        }
+
+        .nav-menu a:hover { 
+            color: var(--cc-primary) !important; 
+        }
+
+        /* ============================================================
+           3. HERO SECTION (Dobra Principal)
+           ============================================================ */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; position: relative; }
+        .hero-title { font-size: 4.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase; }
+        .hero-title span { color: var(--cc-primary); }
+        .hero-title small { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 5px; display: block; color: #888; margin-bottom: 10px; font-weight: bold; }
+        .hero-subtitle { font-size: 1.1rem; color: #aaa; max-width: 650px; margin-bottom: 40px; font-weight: 300; line-height: 1.6; }
+        
+        .btn-modern { text-decoration: none; display: inline-block; padding: 18px 45px; background-color: var(--cc-primary); color: #000; font-weight: 800; text-transform: uppercase; border-radius: 8px; font-size: 0.9rem; letter-spacing: 1px; transition: transform 0.2s, background-color 0.3s; }
+        .btn-modern:hover { transform: translateY(-3px); background-color: #fff; }
+
+        footer { padding: 30px; text-align: center; border-top: 1px solid #1a1c21; font-size: 0.75rem; color: #666; }
+        footer strong { color: #aaa; }
+
+        /* RESPONSIVIDADE CELULAR */
+        @media (max-width: 768px) {
+            header { padding: 20px; flex-direction: column; gap: 20px; text-align: center; }
+            .nav-menu ul { flex-wrap: wrap; justify-content: center; gap: 20px !important; }
+            .logo-img { height: 45px; }
+            .hero-title { font-size: 2.8rem; }
+            .hero-subtitle { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading-screen">
+        <img src="logo_cassiancode.png" alt="CassianCode" class="loading-logo-img">
+        <div class="loading-bar-container">
+            <div class="loading-bar">
+                <div class="loading-fill" id="loading-fill"></div>
+            </div>
+            <div class="loading-percentage">
+                <span style="font-size: 0.7rem; text-transform: uppercase;">Iniciando Sistema</span>
+                <span id="loading-text">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <a href="index.html" class="logo">
+            <img src="logo_cassiancode.png" alt="CassianCode" class="logo-img">
+        </a>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="servicos.html">Serviços</a></li>
+                <li><a href="portfolio.html">Projetos</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="inicio">
+        <section class="hero">
+            <h1 class="hero-title">
+                <small>Webdesign & Desenvolvimento</small>
+                A <span>Evolução Digital</span> do seu Negócio
+            </h1>
+            <p class="hero-subtitle">
+                Na CassianCode, transformamos visões em experiências digitais de alta performance. Criamos plataformas robustas e designs focados em conversão para marcas que desejam liderar o mercado.
+            </p>
+            <a href="#contato" class="btn-modern">Inicie seu Projeto</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="current-year"></span> <strong>CassianCode</strong> | Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Atualizar o ano dinamicamente no rodapé (substituindo o PHP date('Y'))
+            document.getElementById("current-year").textContent = new Date().getFullYear();
+
+            // Lógica da tela de Loading
+            let percentage = 0;
+            const loadingText = document.getElementById("loading-text");
+            const loadingFill = document.getElementById("loading-fill");
+            const loadingScreen = document.getElementById("loading-screen");
+            
+            const duration = 2000; 
+            const intervalTime = duration / 100; 
+
+            const counter = setInterval(function() {
+                percentage++;
+                loadingText.innerText = percentage + "%";
+                loadingFill.style.width = percentage + "%";
+
+                if (percentage >= 100) {
+                    clearInterval(counter);
+                    setTimeout(function() {
+                        loadingScreen.classList.add("loading-screen-hidden");
+                        document.body.style.overflow = "auto";
+                    }, 400); 
+                }
+            }, intervalTime);
+        });
+    </script>
+    
+</body>
+</html>
